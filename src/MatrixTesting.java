@@ -3,11 +3,16 @@ import static java.lang.Math.abs;
 
 public class MatrixTesting {
     public static void main(String[]args){
+        long startTime = System.nanoTime();
+        Test();
+        long endTime = System.nanoTime();
+        System.out.format("finished in %d milliseconds%n",(endTime - startTime)/1000000);
+    }
+    private static void Test(){
         Random rand = new Random();
-        int m = abs(rand.nextInt()%9)+1;
-        int n = abs(rand.nextInt()%9)+1;
-        n = m;
-        int x= 0;
+        int m = abs(rand.nextInt()%1999)+1;//num of row
+        int n = abs(rand.nextInt()%1999)+1;//num of columns
+        System.out.format("%dx%d Matrix%n", m, n);
         int[][] k = new int[m][n];
         for(int i  =0;i<m;i++){
             for(int j = 0;j<n;j++){
@@ -18,17 +23,11 @@ public class MatrixTesting {
         int r = abs(rand.nextInt()%9)+1;
         Matrix m2 = MatrixScalarMultiply(matrix, r);
         Matrix m3 = MatrixAdd(matrix, m2);
-        Matrix m4 = Transpose(matrix);
+        Matrix m4 = Transpose(m3);
         Matrix m5 = MatrixMultiply(matrix, m4);
-        System.out.println("m1\n"+matrix);
-        System.out.println("m2\n"+m2);
-        System.out.println("m3\n"+m3);
-        System.out.println("m4\n"+m4);
-        System.out.println("m5\n"+m5);
-        System.out.println(matrix.inverse());
-        System.out.println(MatrixMultiply(matrix, matrix.inverse()));
+        Matrix m6 = m5.inverse();
     }
-    public static Matrix MatrixAdd(Matrix a, Matrix b){
+    private static Matrix MatrixAdd(Matrix a, Matrix b){
         Matrix m = new Matrix(a.values);
         if (a.m == b.m && a.n == b.n){
             for(int i  =0;i<a.m;i++){
@@ -40,7 +39,7 @@ public class MatrixTesting {
         }
         return null;
     }
-    public static Matrix MatrixScalarMultiply(Matrix a, int x){
+    private static Matrix MatrixScalarMultiply(Matrix a, int x){
         Matrix m = new Matrix(a.values);
         for(int i  =0;i<a.m;i++){
             for(int j = 0;j<a.n;j++){
@@ -49,7 +48,7 @@ public class MatrixTesting {
         }
         return m;
     }
-    public static Matrix MatrixMultiply(Matrix a, Matrix b){
+    private static Matrix MatrixMultiply(Matrix a, Matrix b){
         if(a.n==b.m) {
             int m = a.m;
             int n = b.n;
@@ -66,7 +65,7 @@ public class MatrixTesting {
         }
         return null;
     }
-    public static Matrix Transpose(Matrix a){
+    private static Matrix Transpose(Matrix a){
         Matrix t = new Matrix(a.n, a.m, 0);
         for(int i  =0;i<t.m;i++){
             for(int j = 0;j<t.n;j++){
